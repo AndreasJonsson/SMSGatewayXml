@@ -1,0 +1,6 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+t/SMS-Send-Driver-SMSGatewayXml.t
+lib/SMS/Send/Driver/SMSGatewayXml.pm

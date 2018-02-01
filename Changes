@@ -1,0 +1,6 @@
+Revision history for Perl extension SMS::Send::Driver::SMSGatewayXml.
+
+0.01  Mon Jan 22 17:10:04 2018
+	- original version; created by h2xs 1.23 with options
+		-AX SMS::Send::Driver::SMSGatewayXml
+
