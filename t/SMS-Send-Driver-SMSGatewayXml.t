@@ -111,3 +111,25 @@ is(SMS::Send::Driver::SMSGatewayXml::normalize_phone_number('(070) 123 45 67'), 
 eval { SMS::Send::Driver::SMSGatewayXml::normalize_phone_number('112'); };
 ok ($@ =~ /^Invalid phone number '112'/);
 
+my $sender2 = SMS::Send->new(
+    'Driver::SMSGatewayXml',
+#    _login => 'login',
+#    _password => 'password',
+#    _url => 'http://kreablo.se',
+    _login    => 'smsMLJ@BS',
+    _password => 'FmsQpH',
+    _company => 'Kreablo AB',
+    _sender => 'sender',
+    );
+
+
+$sender2->send_sms(to => '070 634 65 98', text =>
+		   "text \x{e5}\x{e4}\x{f6}\x{c5}\x{c4}\x{d6}\x{3042}\x{304a}\x{3046}\x{3048}\x{3044}\n" .
+		   "text \x{e5}\x{e4}\x{f6}\x{c5}\x{c4}\x{d6}\x{3042}\x{304a}\x{3046}\x{3048}\x{3044}\n" .
+		   "text \x{e5}\x{e4}\x{f6}\x{c5}\x{c4}\x{d6}\x{3042}\x{304a}\x{3046}\x{3048}\x{3044}\n" .
+		   "text \x{e5}\x{e4}\x{f6}\x{c5}\x{c4}\x{d6}\x{3042}\x{304a}\x{3046}\x{3048}\x{3044}\n" .
+		   "text \x{e5}\x{e4}\x{f6}\x{c5}\x{c4}\x{d6}\x{3042}\x{304a}\x{3046}\x{3048}\x{3044}\n" .
+		   "text \x{e5}\x{e4}\x{f6}\x{c5}\x{c4}\x{d6}\x{3042}\x{304a}\x{3046}\x{3048}\x{3044}\n" .
+		   "text \x{e5}\x{e4}\x{f6}\x{c5}\x{c4}\x{d6}\x{3042}\x{304a}\x{3046}\x{3048}\x{3044}\n" .
+		   "text \x{e5}\x{e4}\x{f6}\x{c5}\x{c4}\x{d6}\x{3042}\x{304a}\x{3046}\x{3048}\x{3044}\n"
+);
