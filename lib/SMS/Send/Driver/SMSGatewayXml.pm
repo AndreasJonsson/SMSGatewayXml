@@ -9,6 +9,7 @@ use DateTime;
 use Encode;
 use Carp;
 use URI;
+use utf8;
 
 use base 'SMS::Send::Driver';
 
@@ -103,13 +104,18 @@ sub new {
 	},
 	udmessage => sub {
 	    my ($ctx) = @_;
-	    my $text = $ctx->{doc}->createTextNode($ctx->{text});
 	    my $latin1;
+	    my $utf8;
 	    eval {
-		$latin1 = Encode::Encoder->new($text->nodeValue())->iso_8859_1;
+		$latin1 = Encode::Encoder->new($ctx->{text})->iso_8859_1;
+		$utf8 = Encode::Encoder->new($latin1)->utf8;
 	    };
+	    my $text;
 	    if ($@) {
 		set_unicode($ctx);
+		$text = $ctx->{doc}->createTextNode($ctx->{text});
+	    } else {
+		$text = $ctx->{doc}->createTextNode($utf8);
 	    }
 	    return $text;
 	},
@@ -146,6 +152,10 @@ sub send_sms {
 
     my $xml = $self->build_xml($ctx);
 
+    utf8::decode($self->{company});
+    utf8::decode($self->{login});
+    utf8::decode($self->{password});
+
     my $data = {
 	id => $self->{company},
 	user => $self->{login},
@@ -160,8 +170,6 @@ sub send_sms {
 				  content => $xml,
 				  "content-type" => "application/x-www-form-urlencoded"
 			      });
-
-    print STDERR Dumper($resp);
 
     return $resp->{success};
 }
