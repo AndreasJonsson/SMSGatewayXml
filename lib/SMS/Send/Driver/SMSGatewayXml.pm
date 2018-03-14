@@ -108,7 +108,7 @@ sub new {
 	    my $utf8;
 	    eval {
 		$latin1 = Encode::Encoder->new($ctx->{text})->iso_8859_1;
-		$utf8 = Encode::Encoder->new($latin1)->utf8;
+		$utf8 = $latin1->utf8;
 	    };
 	    my $text;
 	    if ($@) {
