@@ -39,7 +39,7 @@ sub testBuildXml {
       
   my $xml = $sender->build_xml({
       to => '+46123456789',
-      text => encode('utf-8', $text),
+      text => decode('utf-8', encode('utf-8', $text)),
       dt => $sendDt,
   });
 

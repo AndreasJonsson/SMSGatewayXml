@@ -105,7 +105,7 @@ sub new {
 	udmessage => sub {
 	    my ($ctx) = @_;
 	    my $latin1;
-	    my $text = decode('utf-8', $ctx->{text});
+	    my $text = $ctx->{text};
 	    eval {
 		$latin1 = encode('iso-8859-1', $text);
 	    };
