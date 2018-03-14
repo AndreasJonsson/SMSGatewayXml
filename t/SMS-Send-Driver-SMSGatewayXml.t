@@ -9,7 +9,7 @@ use utf8;
 use strict;
 use warnings;
 
-use Test::More tests => 17;
+use Test::More tests => 24;
 BEGIN { use_ok('SMS::Send::Driver::SMSGatewayXml') };
 
 #########################
@@ -137,8 +137,42 @@ my $expectedXml2 = <<EOXML;
 </sms-teknik> 
 EOXML
 
+my $expectedXml3 = <<EOXML;
+<?xml version="1.0" ?>
+<sms-teknik>
+<operationtype>0</operationtype>
+<flash>0</flash>
+<multisms>1</multisms>
+<maxmultisms>6</maxmultisms>
+<ttl>0</ttl>
+<customid></customid>
+<compresstext>0</compresstext>
+<send_date>2009-05-24</send_date>
+<send_time>10:30:00</send_time>
+<udh></udh>
+<udmessage>Bok att h\x{e4}mta. Nummer:&lt;&lt;borrowers.borrowernumber&gt;&gt;\n\"&lt;&lt;biblio.title&gt;&gt;\"/&lt;&lt;branches.branchname&gt;&gt;</udmessage>
+<smssender>sender</smssender>
+<deliverystatustype>0</deliverystatustype>
+<deliverystatusaddress></deliverystatusaddress>
+<usereplynumber>0</usereplynumber>
+<usereplyforwardtype>0</usereplyforwardtype>
+<usereplyforwardurl></usereplyforwardurl>
+<usereplycustomid></usereplycustomid>
+<usereplysmp>0</usereplysmp>
+<usee164>0</usee164>
+<items>
+            <recipient>
+                    <nr>+46123456789</nr>
+            </recipient>
+</items>
+</sms-teknik> 
+EOXML
+
 testBuildXml("text \x{e5}\x{e4}\x{f6}\x{c5}\x{c4}\x{d6}\x{3042}\x{304a}\x{3046}\x{3048}\x{3044}", $expectedXml);
 testBuildXml("text \x{e5}\x{e4}\x{f6}\x{c5}\x{c4}\x{d6}", $expectedXml2);
+testBuildXml("Bok att hämta. Nummer:<<borrowers.borrowernumber>>\n\"<<biblio.title>>\"/<<branches.branchname>>", $expectedXml3);
+
+
 
 is(SMS::Send::Driver::SMSGatewayXml::normalize_phone_number('(070) 123 45 67'), '+46701234567');
 

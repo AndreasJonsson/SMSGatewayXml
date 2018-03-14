@@ -211,7 +211,11 @@ sub build_xml {
 	} else {
 	    my $e = $doc->createElement($n);
 	    $root->addChild($e);
-	    $e->appendText($c);
+	    if (UNIVERSAL::isa($c, 'XML::LibXML::Node')) {
+		$e->appendChild($c);
+	    } else {
+		$e->appendText($c);
+	    }
 	}
 
     }
