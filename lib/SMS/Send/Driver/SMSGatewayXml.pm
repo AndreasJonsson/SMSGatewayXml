@@ -13,7 +13,7 @@ use utf8;
 
 use base 'SMS::Send::Driver';
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use constant {
     DEFAULT_SERVICE_URL => "https://www.smsteknik.se/Member/SMSConnectDirect/SendSMSv3.asp"
