@@ -6,7 +6,7 @@ use warnings;
 use XML::LibXML;
 use HTTP::Tiny;
 use DateTime;
-use Encode;
+use Encode qw(encode decode);
 use Carp;
 use URI;
 use utf8;
@@ -105,19 +105,18 @@ sub new {
 	udmessage => sub {
 	    my ($ctx) = @_;
 	    my $latin1;
-	    my $utf8;
+	    my $text = decode('utf-8', $ctx->{text});
 	    eval {
-		$latin1 = Encode::Encoder->new($ctx->{text})->iso_8859_1;
-		$utf8 = $latin1->utf8;
+		$latin1 = encode('iso-8859-1', $text);
 	    };
-	    my $text;
+	    my $textNode;
 	    if ($@) {
 		set_unicode($ctx);
-		$text = $ctx->{doc}->createTextNode($ctx->{text});
+		$textNode = $ctx->{doc}->createTextNode($text);
 	    } else {
-		$text = $ctx->{doc}->createTextNode($utf8);
+		$textNode = $ctx->{doc}->createTextNode($text);
 	    }
-	    return $text;
+	    return $textNode;
 	},
 	usee164 => 0,
 	items => sub {

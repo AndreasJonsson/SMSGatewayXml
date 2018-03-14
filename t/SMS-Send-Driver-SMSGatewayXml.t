@@ -19,10 +19,10 @@ BEGIN { use_ok('SMS::Send::Driver::SMSGatewayXml') };
 
 use SMS::Send;
 use DateTime;
-use Encode;
+use Encode qw(encode decode);
 use Encode::Encoder;
 
-binmode STDERR, ':encoding(utf8)';
+binmode STDERR;
 
 sub testBuildXml {
   my ($text, $expectedXml) = @_;
@@ -36,10 +36,10 @@ sub testBuildXml {
 
 
   my $sendDt = DateTime->now;
-
+      
   my $xml = $sender->build_xml({
       to => '+46123456789',
-      text => $text,
+      text => encode('utf-8', $text),
       dt => $sendDt,
   });
 
@@ -78,7 +78,7 @@ sub testBuildXml {
 my $expectedXml = <<EOXML;
 <?xml version="1.0" ?>
 <sms-teknik>
-<operationtype>5</operationtype>
+<operationtype>0</operationtype>
 <flash>0</flash>
 <multisms>1</multisms>
 <maxmultisms>6</maxmultisms>
