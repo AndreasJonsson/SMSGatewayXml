@@ -11,7 +11,7 @@ use Carp;
 use URI;
 use utf8;
 
-use base 'SMS::Send::Driver;
+use base 'SMS::Send::Driver';
 
 our $VERSION = '0.03';
 
