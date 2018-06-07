@@ -11,9 +11,9 @@ use Carp;
 use URI;
 use utf8;
 
-use base 'SMS::Send::Driver';
+use base 'SMS::Send::Driver;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use constant {
     DEFAULT_SERVICE_URL => "https://www.smsteknik.se/Member/SMSConnectDirect/SendSMSv3.asp"
@@ -258,13 +258,18 @@ sub normalize_phone_number {
     my $nr = shift;
 
     $_ = $nr;
-    s/[- \/\\\(\)\[\]]//g;
-    s/^(\+\+)|(\+?00)/+/;
+    s/(^[^+0-9])|((?<=.)[^0-9])//g;
+    s/^((\+\+)|(\+?00))/+/;
     s/^0/+46/;
 
-    croak "Invalid phone number '$nr'" unless /^\+\d*$/;
+    croak "Invalid phone number '$nr' ('$_')" unless /^\+\d*$/;
 
     return $_;
+}
+
+sub is_swedish_mobile_phone {
+    my $nr = shift;
+    return $nr =~ /^\+467(([02369])|(4[123457])|(10))/;
 }
     
 1;

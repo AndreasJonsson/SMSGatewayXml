@@ -9,7 +9,7 @@ use utf8;
 use strict;
 use warnings;
 
-use Test::More tests => 24;
+use Test::More tests => 25;
 BEGIN { use_ok('SMS::Send::Driver::SMSGatewayXml') };
 
 #########################
@@ -172,8 +172,7 @@ testBuildXml("text \x{e5}\x{e4}\x{f6}\x{c5}\x{c4}\x{d6}\x{3042}\x{304a}\x{3046}\
 testBuildXml("text \x{e5}\x{e4}\x{f6}\x{c5}\x{c4}\x{d6}", $expectedXml2);
 testBuildXml("Bok att hämta. Nummer:<<borrowers.borrowernumber>>\n\"<<biblio.title>>\"/<<branches.branchname>>", $expectedXml3);
 
-
-
+is(SMS::Send::Driver::SMSGatewayXml::normalize_phone_number('+46712340000'), '+46712340000');
 is(SMS::Send::Driver::SMSGatewayXml::normalize_phone_number('(070) 123 45 67'), '+46701234567');
 
 eval { SMS::Send::Driver::SMSGatewayXml::normalize_phone_number('112'); };
